@@ -1,10 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 
 import { incrementVote } from '../reducers/anecdoteReducer'
-import {
-  changeNotification,
-  removeNotification,
-} from '../reducers/notificationReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const Anecdote = ({ anecdote, handleVote }) => {
   return (
@@ -19,6 +16,7 @@ const Anecdote = ({ anecdote, handleVote }) => {
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
+
   const anecdotes = useSelector(({ anecdotes, filter }) => {
     return filter === ''
       ? anecdotes
@@ -30,13 +28,11 @@ const AnecdoteList = () => {
   const vote = (id) => {
     dispatch(incrementVote(id))
     dispatch(
-      changeNotification(
-        `You voted "${anecdotes.find((n) => n.id === id).content}"`
+      setNotification(
+        `You voted "${anecdotes.find((n) => n.id === id).content}"`,
+        5
       )
     )
-    setTimeout(() => {
-      dispatch(removeNotification(''))
-    }, 5000)
   }
   // dispatch({ type: 'notes/createNote',
   // payload: 'Redux Toolkit is awesome!' })
